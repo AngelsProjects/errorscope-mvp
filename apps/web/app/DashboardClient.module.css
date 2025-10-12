@@ -1,0 +1,14 @@
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: #718096;
+  font-size: 1.125rem;
+}
+
+.error {
+  background: #fed7d7;
+  color: #c53030;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}

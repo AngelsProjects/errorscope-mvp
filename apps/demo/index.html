@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ErrorScope SDK Demo</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background: #f5f7fa;
+      }
+      h1 {
+        color: #2d3748;
+      }
+      button {
+        background: #3182ce;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        margin: 10px 10px 10px 0;
+      }
+      button:hover {
+        background: #2c5282;
+      }
+      .success {
+        background: #48bb78;
+      }
+      .success:hover {
+        background: #38a169;
+      }
+      .warning {
+        background: #ed8936;
+      }
+      .warning:hover {
+        background: #dd6b20;
+      }
+      code {
+        background: #2d3748;
+        color: #68d391;
+        padding: 2px 6px;
+        border-radius: 3px;
+      }
+      .status {
+        margin-top: 20px;
+        padding: 15px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🔍 ErrorScope SDK Demo</h1>
+    <p>Test the error monitoring SDK in action.</p>
+
+    <div>
+      <button onclick="throwError()">Throw Error</button>
+      <button onclick="throwAsync()">Async Error</button>
+      <button onclick="sendWarning()" class="warning">Send Warning</button>
+      <button onclick="sendInfo()" class="success">Send Info</button>
+      <button onclick="throwUndefined()">Undefined Error</button>
+    </div>
+
+    <div class="status">
+      <h3>Status</h3>
+      <p>SDK initialized for app: <code>demo-app</code></p>
+      <p>Environment: <code>development</code></p>
+      <p>
+        Check your dashboard at:
+        <a href="http://localhost:3000" target="_blank">http://localhost:3000</a>
+      </p>
+    </div>
+
+    <script type="module">
+      import { init, captureException, captureMessage } from '../packages/sdk/dist/index.js';
+
+      // Initialize SDK
+      init({
+        apiKey: 'demo-api-key',
+        endpoint: 'http://localhost:3001/api',
+        appName: 'demo-app',
+        environment: 'development',
+        enableAutoCapture: true,
+      });
+
+      window.throwError = () => {
+        try {
+          throw new Error('This is a test error from the demo app!');
+        } catch (error) {
+          captureException(error, {
+            action: 'button_click',
+            userId: 'demo-user-123',
+          });
+          alert('Error sent! Check your dashboard.');
+        }
+      };
+
+      window.throwAsync = async () => {
+        try {
+          await Promise.reject(new Error('Async operation failed!'));
+        } catch (error) {
+          captureException(error, { async: true });
+          alert('Async error sent!');
+        }
+      };
+
+      window.sendWarning = () => {
+        captureMessage('This is a warning message', 'warning', {
+          feature: 'demo',
+        });
+        alert('Warning sent!');
+      };
+
+      window.sendInfo = () => {
+        captureMessage('User completed action', 'info', {
+          action: 'demo_info',
+        });
+        alert('Info message sent!');
+      };
+
+      window.throwUndefined = () => {
+        const obj = null;
+        obj.property; // Will throw error
+      };
+    </script>
+  </body>
+</html>

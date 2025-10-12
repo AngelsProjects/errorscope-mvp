@@ -1,0 +1,67 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.message {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0;
+  flex: 1;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.875rem;
+  color: #718096;
+}
+
+.metaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 8px;
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+}
+
+.empty h3 {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+  color: #2d3748;
+}
+
+.empty p {
+  color: #718096;
+  margin-bottom: 16px;
+}
+
+.code {
+  display: inline-block;
+  background: #2d3748;
+  color: #68d391;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-family: 'Monaco', monospace;
+  font-size: 0.9rem;
+}

@@ -1,0 +1,51 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.eventCard {
+  display: flex;
+  gap: 16px;
+  padding: 16px !important;
+}
+
+.levelIndicator {
+  width: 4px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.message {
+  font-weight: 500;
+  color: #2d3748;
+  margin-bottom: 8px;
+  word-break: break-word;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: #a0aec0;
+}
+
+.url {
+  color: #3182ce;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.empty {
+  text-align: center;
+  padding: 40px;
+  color: #a0aec0;
+  background: white;
+  border-radius: 8px;
+}

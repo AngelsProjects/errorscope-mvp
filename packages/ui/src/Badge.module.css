@@ -1,0 +1,29 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.default {
+  background: #e2e8f0;
+  color: #2d3748;
+}
+
+.error {
+  background: #fed7d7;
+  color: #c53030;
+}
+
+.warning {
+  background: #feebc8;
+  color: #c05621;
+}
+
+.info {
+  background: #bee3f8;
+  color: #2c5282;
+}

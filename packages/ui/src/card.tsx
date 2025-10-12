@@ -1,27 +1,26 @@
-import { type JSX } from "react";
+import { ReactNode } from 'react';
+import { cn } from './lib/utils';
+import styles from './Card.module.css';
 
-export function Card({
-  className,
-  title,
-  children,
-  href,
-}: {
+interface CardProps {
+  children: ReactNode;
   className?: string;
-  title: string;
-  children: React.ReactNode;
-  href: string;
-}): JSX.Element {
+  onClick?: () => void;
+  hoverable?: boolean;
+}
+
+export function Card({ children, className, onClick, hoverable = false }: CardProps) {
   return (
-    <a
-      className={className}
-      href={`${href}?utm_source=create-turbo&utm_medium=basic&utm_campaign=create-turbo"`}
-      rel="noopener noreferrer"
-      target="_blank"
+    <div
+      className={cn(
+        styles.card,
+        hoverable && styles.hoverable,
+        onClick && styles.clickable,
+        className
+      )}
+      onClick={onClick}
     >
-      <h2>
-        {title} <span>-&gt;</span>
-      </h2>
-      <p>{children}</p>
-    </a>
+      {children}
+    </div>
   );
 }

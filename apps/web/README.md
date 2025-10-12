@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/create-next-app).
+# @errorscope/web
+
+Next.js 14 dashboard for ErrorScope error monitoring.
+
+## Features
+
+- 📊 Real-time error dashboard
+- 🔍 Error grouping and detail views
+- 📈 Statistics overview
+- 🎨 Modern UI with CSS Modules
+- ⚡ Server & Client Components
+- 🔄 Auto-refresh (5s polling)
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Install dependencies
+pnpm install
+
+# Start development server
 pnpm dev
-# or
-bun dev
+
+# Build for production
+pnpm build
+
+# Start production server
+pnpm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create `.env.local`:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load Inter, a custom Google Font.
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3001/api/errors
+```
 
-## Learn More
+## Architecture
 
-To learn more about Next.js, take a look at the following resources:
+### Server Components
+- `/app/page.tsx` - Dashboard page
+- `/app/errors/[fingerprint]/page.tsx` - Error detail page
+- `StatsCards` - Statistics display
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Client Components
+- `DashboardClient` - Interactive dashboard
+- `ErrorGroupList` - Error groups list
+- `ErrorEventList` - Recent events list
+- `Tabs` - Tab navigation
+- UI components (`Button`, `Card`, `Badge`)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Custom Hooks
+- `useErrorData` - Polling hook for real-time updates
 
-## Deploy on Vercel
+## Performance
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Server-side rendering for initial load
+- Cached API responses (5-10s)
+- Client-side polling for updates
+- Optimized bundle size
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+MIT

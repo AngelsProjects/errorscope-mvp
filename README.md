@@ -1,135 +1,176 @@
-# Turborepo starter
+# ErrorScope MVP - Application Monitoring
 
-This Turborepo starter is maintained by the Turborepo core team.
+A full-stack error monitoring solution built with Next.js 14, React, NestJS, TypeScript, and PostgreSQL.
 
-## Using this example
+## 🏗️ Architecture
 
-Run the following command:
-
-```sh
-npx create-turbo@latest
-```
-
-## What's inside?
-
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
+### Monorepo Structure
 
 ```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+errorscope-mvp/
+├── apps/
+│ ├── demo/ # Demo app to test errorscope
+│ ├── backend/ # NestJS API (REST + PostgreSQL)
+│ └── web/ # Next.js 14 App Router + React dashboard
+├── packages/
+│ ├── eslint-config/ # Eslint config for all workspace
+│ ├── sdk/ # TypeScript SDK for error capturing
+│ ├── typescript-config/ # TS config for all workspace
+│ └── ui/ # React UI components
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+### Tech Stack
+- **Frontend**: Next.js 14 (App Router), React 18, TypeScript
+- **Backend**: NestJS, TypeORM, PostgreSQL, Redis
+- **SDK**: TypeScript (universal: browser + Node.js)
+- **Infrastructure**: Docker, Docker Compose
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+## 🚀 Quick Start
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+### Prerequisites
+- Node.js 18+
+- pnpm 8+
+- Docker & Docker Compose
 
-### Develop
+### Installation
 
-To develop all apps and packages, run the following command:
+1. **Clone and install dependencies**
+   ```bash
+   git clone <repo>
+   cd errorscope-mvp
+   pnpm install
+   ```
 
-```
-cd my-turborepo
+2. **Start infrastructure (PostgreSQL + Redis)**
+ ```bash
+   pnpm db:up
+   ```
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+3. **Start all services in parallel**
+   ```bash
+   pnpm dev
+   ```
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+   This starts:
+   - Backend API: http://localhost:3001
+   - Web Dashboard: http://localhost:3000
+   - SDK: Watch mode
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+### Individual Services
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+```bash
+# Start only backend
+pnpm backend:dev
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+# Start only frontend
+pnpm dashboard:dev
 
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+# Build SDK
+pnpm sdk:dev
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## 📦 Using the SDK
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+### Installation
+```bash
+npm install @errorscope/sdk
 ```
 
-## Useful Links
+### Basic Usage
+```typescript
+import { init, captureException } from '@errorscope/sdk';
 
-Learn more about the power of Turborepo:
+// Initialize
+init({
+  apiKey: 'your-api-key',
+  environment: 'production',
+  appName: 'my-app',
+});
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+// Capture errors
+try {
+  throw new Error('Something went wrong!');
+} catch (error) {
+  captureException(error, { userId: '123' });
+}
+```
+
+## 🧪 Testing
+
+Send a test error from the dashboard:
+1. Open http://localhost:3000
+2. Click "🧪 Send Test Error" button
+3. Error appears in the dashboard within 5 seconds
+
+## 📊 Features
+
+### MVP Features
+- ✅ Real-time error ingestion
+- ✅ Error grouping by fingerprint
+- ✅ Dashboard with error groups & events
+- ✅ Auto-polling (5s intervals)
+- ✅ Error detail view
+- ✅ Stats aggregation
+
+### Architecture Highlights
+- **Server Components**: Stats, initial data loading (cached)
+- **Client Components**: Interactive UI, real-time updates
+- **React Hooks**: Custom `useErrorData` hook for polling
+- **API Routes**: Test error generation
+- **TypeScript**: End-to-end type safety
+
+## 🏭 Production Considerations
+
+### Current Limitations (MVP)
+- No authentication
+- Single-table storage (won't scale past 1M errors)
+- Polling instead of WebSocket
+- No source map support
+
+### Next Steps
+1. Add user authentication (NextAuth.js)
+2. Implement time-series database (ClickHouse)
+3. Add WebSocket for real-time updates
+4. Source map integration
+5. Advanced filtering & search
+6. Email/Slack alerts
+7. Performance monitoring (APM)
+
+## 📝 Environment Variables
+
+### Backend (`apps/backend/.env`)
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=errorscope
+DB_PASSWORD=dev_password
+DB_NAME=errorscope
+```
+
+### Frontend (`apps/web/.env.local`)
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3001/api/errors
+```
+
+## 🛠️ Development
+
+### Database Management
+```bash
+# Start databases
+pnpm db:up
+
+# Stop databases
+pnpm db:down
+
+# Reset database (warning: deletes all data)
+docker-compose down -v && pnpm db:up
+```
+
+### Build for Production
+```bash
+pnpm build
+```
+
+## 📄 License
+
+MIT
