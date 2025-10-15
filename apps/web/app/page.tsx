@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import { StatsCards } from '../components/StatsCards';
 import { DashboardClient } from './DashboardClient';
 import { TestErrorButton } from '../components/TestErrorButton';
@@ -17,21 +16,9 @@ export default function HomePage() {
         <TestErrorButton />
       </header>
 
-      <Suspense fallback={<StatsLoading />}>
-        <StatsCards />
-      </Suspense>
+      <StatsCards />
 
       <DashboardClient />
-    </div>
-  );
-}
-
-function StatsLoading() {
-  return (
-    <div className={styles.statsLoading}>
-      <div className={styles.skeleton} />
-      <div className={styles.skeleton} />
-      <div className={styles.skeleton} />
     </div>
   );
 }
